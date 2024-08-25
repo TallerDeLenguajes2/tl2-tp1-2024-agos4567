@@ -1,17 +1,16 @@
 # Trabajo Practico N1
 
-### 2a
 
-#### ¿Cuál de estas relaciones considera que se realiza por composición y cuál por agregación?
-*La relacion Pedido-Cliente es por composicion, ya que cada pedido debe estar asociado a un cliente especifico, si se elimina un pedido el cliente relacionado al mismo tambien se debe eliminar, esto muestra una fuerte dependencia entre ambos.
+### ¿Cuál de estas relaciones considera que se realiza por composición y cuál por agregación?
+•La relacion Pedido-Cliente es por composicion, ya que cada pedido debe estar asociado a un cliente especifico, si se elimina un pedido el cliente relacionado al mismo tambien se debe eliminar, esto muestra una fuerte dependencia entre ambos.
 
-*La relacion Pedido-Cadete es por agregacion, un pedido puede existir sin estar asignado a un cadete.
-
-
-*La relacion Cadeteria-Cadete es por composicion ya que un cadete no puede existir sin una cadeteria.
+•La relacion Pedido-Cadete es por agregacion, un pedido puede existir sin estar asignado a un cadete.
 
 
-#### ¿Qué métodos considera que debería tener la clase Cadetería y la clase Cadete?
+•La relacion Cadeteria-Cadete es por composicion ya que un cadete no puede existir sin una cadeteria.
+
+
+### ¿Qué métodos considera que debería tener la clase Cadetería y la clase Cadete?
 
 ##### Metodos Cadeteria:
 -AgregarCadete(Cadete cadete); Agrega un nuevo cadete a la lista de Cadeteria.
@@ -34,7 +33,7 @@
 
 
 
-#### Teniendo en cuenta los principios de abstracción y ocultamiento, que atributos, propiedades y métodos deberían ser públicos y cuáles privados.
+### Teniendo en cuenta los principios de abstracción y ocultamiento, que atributos, propiedades y métodos deberían ser públicos y cuáles privados.
 
  
 
@@ -94,5 +93,5 @@
 -VerDireccionCliente();publicos
 -VerDatosCliente();publicos
 
-#### ¿Cómo diseñaría los constructores de cada una de las clases?
-#### ¿Se le ocurre otra forma que podría haberse realizado el diseño de clases?
+### ¿Cómo diseñaría los constructores de cada una de las clases?
+### ¿Se le ocurre otra forma que podría haberse realizado el diseño de clases?
