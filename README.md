@@ -94,4 +94,39 @@
 -VerDatosCliente();publicos
 
 ### ¿Cómo diseñaría los constructores de cada una de las clases?
+
+public Pedido(int nro, string obs, Cliente cliente, string estado)
+{
+    Nro = nro;
+    Obs = obs;
+    Cliente = cliente;
+    Estado = estado;
+}
+
+public Cliente(string nombre, string direccion, string telefono, string datosReferenciaDireccion)
+{
+    Nombre = nombre;
+    Direccion = direccion;
+    Telefono = telefono;
+    DatosReferenciaDireccion = datosReferenciaDireccion;
+}
+
+public Cadete(int id, string nombre, string telefono,string direccion, List<Pedido> listaPedidos)
+{
+    Id = id;
+    Nombre = nombre;
+    Telefono = telefono;
+    Direccion=direccion;
+    ListadoPedidos = listaPedidos;
+}
+
+public Cadetería(string nombre, string telefono, List<Cadete> listaCadete)
+{
+    Nombre = nombre;
+    Telefono=telefono;
+    ListadoCadetes = listaCadete;
+}
+
+
+
 ### ¿Se le ocurre otra forma que podría haberse realizado el diseño de clases?
