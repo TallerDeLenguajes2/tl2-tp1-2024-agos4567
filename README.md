@@ -103,7 +103,7 @@ public Pedido(int nro, string obs, Cliente cliente, string estado)
     Estado = estado;
 }
 
-public Cliente(string nombre, string direccion, string telefono, string datosReferenciaDireccion)
+public Cliente(string nombre, string direccion, int telefono, string datosReferenciaDireccion)
 {
     Nombre = nombre;
     Direccion = direccion;
