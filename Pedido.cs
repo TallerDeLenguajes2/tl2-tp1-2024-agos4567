@@ -22,8 +22,6 @@ namespace EspacioDatos
         public EstadoPedido Estado { get => estado; set => estado = value; }
 
 
-
-        // Constructor
         public Pedido(int nro, string observacion, Clientes cliente, EstadoPedido estado)
         {
             Nro = nro;
@@ -31,7 +29,12 @@ namespace EspacioDatos
             Cliente = cliente;
             Estado = estado;
         }
-
+        
+         // metodo para cambiar el estado del pedido
+        public void CambiarEstado(EstadoPedido nuevoEstado)
+        {
+            Estado = nuevoEstado;
+        }
 
 
     }
