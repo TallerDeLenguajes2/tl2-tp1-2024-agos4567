@@ -1,43 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EspacioDatos
 {
     public class Cadeteria
     {
         private string? nombre;
-
         private string telefono;
-        //    private List<Cadete> listadoCadetes;
-     private List<Cadete> listadoCadetes = new List<Cadete>();
-     
-        // Nueva lista para pedidos dados de alta
-        private List<Pedido> pedidosDisponibles = new List<Pedido>();
-        
+        private List<Cadete> listadoCadetes = new List<Cadete>(); // Lista de cadetes
+        private List<Pedido> pedidosDisponibles = new List<Pedido>(); // Lista de pedidos
 
         public string? Nombre { get => nombre; set => nombre = value; }
         public string Telefono { get => telefono; set => telefono = value; }
-        // public List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
-         public List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
+        public List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
         public List<Pedido> PedidosDisponibles { get => pedidosDisponibles; set => pedidosDisponibles = value; }
 
-
-
-        //     public Cadeteria(){
-
-        //     ListadoCadetes = new List<Cadete>();
-        // }
-
         public Cadeteria(string nombre, string telefono)
-    {
-        Nombre = nombre;
-        // Direccion = direccion;
-        Telefono = telefono;
-    }
-    // public void AgregarCadete(Cadete cadete)
-    // {
-    //     listadoCadetes.Add(cadete);
-    // }
-
-
+        {
+            Nombre = nombre;
+            Telefono = telefono;
+        }
 
         public void AgregarCadete(Cadete nuevoCadete)
         {
@@ -47,100 +30,52 @@ namespace EspacioDatos
             }
         }
 
-          // metodo para buscar un pedido por su id
         public Pedido? BuscarPedidoPorId(int pedidoId)
         {
-            foreach (var pedido in pedidosDisponibles)
-            {
-                if (pedido.Nro == pedidoId)
-                {
-                    return pedido;
-                }
-            }
-            return null; // Retorna null si no se encuentra el pedido
+            return pedidosDisponibles.FirstOrDefault(pedido => pedido.Nro == pedidoId);
         }
 
-
-
-   // metodo para asignar un pedido a un cadete
-   public void AsignarPedidoACadete(int cadeteId, Pedido pedido) // cambia el segundo paramtro de int a Pedido
-{
-    if (listadoCadetes == null)
-    {
-        listadoCadetes = new List<Cadete>();
-    }
-
-    Cadete? cadete = null;
-
-    // Buscar el cadete por su ID
-    foreach (var c in listadoCadetes)
-    {
-        if (c.Id == cadeteId)
+        // Asignar un pedido a un cadete
+        public void AsignarPedidoACadete(int pedidoId, int cadeteId)
         {
-            cadete = c;
-            break; // salir del bucle si se encuentra el cadete
+            Pedido? pedido = BuscarPedidoPorId(pedidoId);
+            Cadete? cadete = listadoCadetes.FirstOrDefault(c => c.Id == cadeteId);
+
+            if (pedido == null)
+            {
+                throw new Exception("Pedido no encontrado.");
+            }
+
+            if (cadete == null)
+            {
+                throw new Exception("Cadete no encontrado.");
+            }
+
+            // Asignar el pedido al cadete
+            pedido.CadeteAsignado = cadete;
         }
-    }
 
-    // si el cadete fue encontrado, asignar el pedido
-    if (cadete != null)
-    {
-        cadete.AgregarPedido(pedido);
-    }
-    else
-    {
-        throw new Exception("Cadete no encontrado");
-    }
-}
-
-
-       // reasignar un pedido de un cadete a otro
+        // Reasignar un pedido de un cadete a otro
         public void ReasignarPedido(int pedidoId, int nuevoCadeteId)
         {
-            Pedido? pedido = null;
-            Cadete? cadeteActual = null;
+            Pedido? pedido = BuscarPedidoPorId(pedidoId);
+            Cadete? nuevoCadete = listadoCadetes.FirstOrDefault(c => c.Id == nuevoCadeteId);
 
-            // Buscar el pedido en los cadetes
-            foreach (var cadete in listadoCadetes)
+            if (pedido == null)
             {
-                foreach (var p in cadete.ListadoPedidos)
-                {
-                    if (p.Nro == pedidoId)
-                    {
-                        pedido = p;
-                        cadeteActual = cadete;
-                        break; // salir  del bucle si se encuentra el pedido
-                    }
-                }
-
-                if (pedido != null)
-                {
-                    break; // salir  del bucle exterior si ya se encontró el pedido
-                }
+                throw new Exception("Pedido no encontrado.");
             }
 
-                //si el pedido fue encontrado, reasignarlo al nuevo cadete
-                if (pedido != null && cadeteActual != null)
-                {
-                    cadeteActual.ListadoPedidos.Remove(pedido);
-                    AsignarPedidoACadete(nuevoCadeteId, pedido);
-                }
-                else
-                {
-                    throw new Exception("Pedido o Cadete no encontrado");
-                }
+            if (nuevoCadete == null)
+            {
+                throw new Exception("Nuevo cadete no encontrado.");
+            }
+
+            // Reasignar el pedido al nuevo cadete
+            pedido.CadeteAsignado = nuevoCadete;
         }
 
-        // // Mostrar un informe de todos los cadetes y sus pedidos
-        // public void MostrarInforme()
-        // {
-        //     foreach (var cadete in listadoCadetes)
-        //     {
-        //         Console.WriteLine($"Cadete: {cadete.Nombre}, Pedidos Asignados: {cadete.ListadoPedidos.Count}, Jornal: {cadete.JornalACobrar()}");
-        //     }
-        // }
-        
-                public void MostrarInforme()
+        public void MostrarInforme()
         {
             if (ListadoCadetes == null || !ListadoCadetes.Any())
             {
@@ -153,24 +88,18 @@ namespace EspacioDatos
 
             foreach (var cadete in ListadoCadetes)
             {
-                if (cadete.ListadoPedidos == null)
-                {
-                    cadete.ListadoPedidos = new List<Pedido>();
-                }
+                // Filtrar los pedidos asignados a este cadete
+                var pedidosDelCadete = PedidosDisponibles.Where(p => p.CadeteAsignado == cadete).ToList();
+                double jornal = pedidosDelCadete.Count * 50; // Calcula jornal para cada cadete (50 es un ejemplo de tarifa por pedido)
 
-                totalJornal += cadete.JornalACobrar();
-                totalEnvios += cadete.ListadoPedidos.Count;
+                totalJornal += jornal;
+                totalEnvios += pedidosDelCadete.Count;
+
+                Console.WriteLine($"Cadete: {cadete.Nombre}, Pedidos Asignados: {pedidosDelCadete.Count}, Jornal: {jornal}");
             }
 
             double promedioEnvios = (double)totalEnvios / ListadoCadetes.Count;
-
-            foreach (var cadete in ListadoCadetes)
-            {
-                Console.WriteLine($"Cadete: {cadete.Nombre}, Pedidos Asignados: {cadete.ListadoPedidos.Count}, Jornal: {cadete.JornalACobrar()}");
-            }
-
             Console.WriteLine($"Total Jornal: {totalJornal}, Total Envíos: {totalEnvios}, Promedio Envíos por Cadete: {promedioEnvios:F2}");
         }
-            
     }
 }

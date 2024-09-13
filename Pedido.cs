@@ -15,12 +15,13 @@ namespace EspacioDatos
          private Clientes cliente;
 
           private EstadoPedido estado;
+          private Cadete? cadeteAsignado;
 
         public int Nro { get => nro; set => nro = value; }
         public string? Observacion { get => observacion; set => observacion = value; }
         public Clientes Cliente { get => cliente; set => cliente = value; }
         public EstadoPedido Estado { get => estado; set => estado = value; }
-
+        public Cadete? CadeteAsignado { get => cadeteAsignado; set => cadeteAsignado = value; }
 
         public Pedido(int nro, string observacion, Clientes cliente, EstadoPedido estado)
         {
@@ -28,13 +29,14 @@ namespace EspacioDatos
             Observacion = observacion;
             Cliente = cliente;
             Estado = estado;
+             CadeteAsignado = null; 
         }
         
          // metodo para cambiar el estado del pedido
-        public void CambiarEstado(EstadoPedido nuevoEstado)
-        {
-            Estado = nuevoEstado;
-        }
+        // public void CambiarEstado(EstadoPedido nuevoEstado)
+        // {
+        //     Estado = nuevoEstado;
+        // }
 
 
     }
