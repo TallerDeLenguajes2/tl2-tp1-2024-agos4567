@@ -51,11 +51,11 @@ namespace EspacioDatos
                 throw new Exception("Cadete no encontrado.");
             }
 
-            // Asignar el pedido al cadete
+            // asigna el pedido al cadete
             pedido.CadeteAsignado = cadete;
         }
 
-        // Reasignar un pedido de un cadete a otro
+        // reasigna un pedido de un cadete a otro
         public void ReasignarPedido(int pedidoId, int nuevoCadeteId)
         {
             Pedido? pedido = BuscarPedidoPorId(pedidoId);
@@ -71,7 +71,7 @@ namespace EspacioDatos
                 throw new Exception("Nuevo cadete no encontrado.");
             }
 
-            // Reasignar el pedido al nuevo cadete
+            // reasignar el pedido al nuevo cadete
             pedido.CadeteAsignado = nuevoCadete;
         }
 
@@ -88,9 +88,9 @@ namespace EspacioDatos
 
             foreach (var cadete in ListadoCadetes)
             {
-                // Filtrar los pedidos asignados a este cadete
+                // filtro los pedidos asignados a este cadete
                 var pedidosDelCadete = PedidosDisponibles.Where(p => p.CadeteAsignado == cadete).ToList();
-                double jornal = pedidosDelCadete.Count * 50; // Calcula jornal para cada cadete (50 es un ejemplo de tarifa por pedido)
+                double jornal = pedidosDelCadete.Count * 50; // caluclo jornal para cada cadete 
 
                 totalJornal += jornal;
                 totalEnvios += pedidosDelCadete.Count;
