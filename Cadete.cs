@@ -16,14 +16,14 @@ namespace EspacioDatos
 
         //  private List<Pedido> listadoPedidos;
 
-    //  private List<Pedido> listadoPedidos = new List<Pedido>(); 
+     private List<Pedido> listadoPedidos = new List<Pedido>(); 
 
         public int Id { get => id; set => id = value; }
         public string? Nombre { get => nombre; set => nombre = value; }
         public string? Direccion { get => direccion; set => direccion = value; }
         public string Telefono { get => telefono; set => telefono = value; }
         // public List<Pedido> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
-    //    public List<Pedido> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
+       public List<Pedido> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
 
         //constructor
 
@@ -39,24 +39,24 @@ namespace EspacioDatos
             // ListadoPedidos = new List<Pedido>();
 }
    
-        //     public double JornalACobrar()
-        // {
-        //     double valorPorPedido = 50; 
-        //     return ListadoPedidos.Count * valorPorPedido;
-        // }
+            public double JornalACobrar()
+        {
+            double valorPorPedido = 50; 
+            return ListadoPedidos.Count * valorPorPedido;
+        }
 
-        //    // agrego un pedido al listado
-        //  public void AgregarPedido(Pedido pedido)
-        // {
-        //     if (pedido != null)
-        //     {
-        //         ListadoPedidos.Add(pedido);
-        //     }
-        //     else
-        //     {
-        //         throw new ArgumentNullException(nameof(pedido), "El pedido no puede ser nulo.");
-        //     }
-        // }
+           // agrego un pedido al listado
+         public void AgregarPedido(Pedido pedido)
+        {
+            if (pedido != null)
+            {
+                ListadoPedidos.Add(pedido);
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(pedido), "El pedido no puede ser nulo.");
+            }
+        }
 
 
 
