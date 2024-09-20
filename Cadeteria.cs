@@ -63,73 +63,132 @@ namespace EspacioDatos
 
 
    // metodo para asignar un pedido a un cadete
-   public void AsignarPedidoACadete(int cadeteId, Pedido pedido) // cambia el segundo paramtro de int a Pedido
+   public void AsignarPedidoACadete(int cadeteId, int pedidoId)
 {
-    if (listadoCadetes == null)
+    // Buscar el pedido en la lista de pedidos disponibles
+    Pedido? pedido = BuscarPedidoPorId(pedidoId);
+    
+    if (pedido == null)
     {
-        listadoCadetes = new List<Cadete>();
+        Console.WriteLine("El pedido no ha sido dado de alta y no puede ser asignado.");
+        return;
     }
 
-    Cadete? cadete = null;
+    // Si no se encuentra el cadete, se lanza una excepción
+    Cadete? cadete = listadoCadetes.FirstOrDefault(c => c.Id == cadeteId);
 
-    // Buscar el cadete por su ID
-    foreach (var c in listadoCadetes)
-    {
-        if (c.Id == cadeteId)
-        {
-            cadete = c;
-            break; // salir del bucle si se encuentra el cadete
-        }
-    }
-
-    // si el cadete fue encontrado, asignar el pedido
     if (cadete != null)
     {
         cadete.AgregarPedido(pedido);
+        // Una vez asignado el pedido, podrías removerlo de la lista de pedidos disponibles si es necesario
+        // pedidosDisponibles.Remove(pedido);
     }
     else
     {
-        throw new Exception("Cadete no encontrado");
+        throw new Exception("Cadete no encontrado.");
     }
 }
 
+//    public void AsignarPedidoACadete(int cadeteId, Pedido pedido) // cambia el segundo paramtro de int a Pedido
+// {
+//     if (listadoCadetes == null)
+//     {
+//         listadoCadetes = new List<Cadete>();
+//     }
+
+//     Cadete? cadete = null;
+
+//     // Buscar el cadete por su ID
+//     foreach (var c in listadoCadetes)
+//     {
+//         if (c.Id == cadeteId)
+//         {
+//             cadete = c;
+//             break; // salir del bucle si se encuentra el cadete
+//         }
+//     }
+
+//     // si el cadete fue encontrado, asignar el pedido
+//     if (cadete != null)
+//     {
+//         cadete.AgregarPedido(pedido);
+//     }
+//     else
+//     {
+//         throw new Exception("Cadete no encontrado");
+//     }
+// }
+
 
        // reasignar un pedido de un cadete a otro
-        public void ReasignarPedido(int pedidoId, int nuevoCadeteId)
+       public void ReasignarPedido(int pedidoId, int nuevoCadeteId)
+{
+    Pedido? pedido = BuscarPedidoPorId(pedidoId);
+
+    if (pedido == null)
+    {
+        Console.WriteLine("El pedido no ha sido dado de alta y no puede ser reasignado.");
+        return;
+    }
+
+    Cadete? cadeteActual = null;
+
+    // Buscar el pedido en los cadetes
+    foreach (var cadete in listadoCadetes)
+    {
+        if (cadete.ListadoPedidos.Contains(pedido))
         {
-            Pedido? pedido = null;
-            Cadete? cadeteActual = null;
-
-            // Buscar el pedido en los cadetes
-            foreach (var cadete in listadoCadetes)
-            {
-                foreach (var p in cadete.ListadoPedidos)
-                {
-                    if (p.Nro == pedidoId)
-                    {
-                        pedido = p;
-                        cadeteActual = cadete;
-                        break; // salir  del bucle si se encuentra el pedido
-                    }
-                }
-
-                if (pedido != null)
-                {
-                    break; // salir  del bucle exterior si ya se encontró el pedido
-                }
-            }
-
-                //si el pedido fue encontrado, reasignarlo al nuevo cadete
-                if (pedido != null && cadeteActual != null)
-                {
-                    cadeteActual.ListadoPedidos.Remove(pedido);
-                    AsignarPedidoACadete(nuevoCadeteId, pedido);
-                }
-                else
-                {
-                    throw new Exception("Pedido o Cadete no encontrado");
-                }
+            cadeteActual = cadete;
+            break;
         }
+    }
+
+    if (cadeteActual != null)
+    {
+        cadeteActual.ListadoPedidos.Remove(pedido);
+        AsignarPedidoACadete(nuevoCadeteId, pedidoId);
+    }
+    else
+    {
+        Console.WriteLine("El pedido no está asignado a ningún cadete.");
+    }
+}
+
+        // public void ReasignarPedido(int pedidoId, int nuevoCadeteId)
+        // {
+        //     Pedido? pedido = null;
+        //     Cadete? cadeteActual = null;
+
+        //     // Buscar el pedido en los cadetes
+        //     foreach (var cadete in listadoCadetes)
+        //     {
+        //         foreach (var p in cadete.ListadoPedidos)
+        //         {
+        //             if (p.Nro == pedidoId)
+        //             {
+        //                 pedido = p;
+        //                 cadeteActual = cadete;
+        //                 break; // salir  del bucle si se encuentra el pedido
+        //             }
+        //         }
+
+        //         if (pedido != null)
+        //         {
+        //             break; // salir  del bucle exterior si ya se encontró el pedido
+        //         }
+        //     }
+
+        //         //si el pedido fue encontrado, reasignarlo al nuevo cadete
+        //         if (pedido != null && cadeteActual != null)
+        //         {
+        //             cadeteActual.ListadoPedidos.Remove(pedido);
+        //             AsignarPedidoACadete(nuevoCadeteId, pedido);
+        //         }
+        //         else
+        //         {
+        //             throw new Exception("Pedido o Cadete no encontrado");
+        //         }
+        // }
 
         // // Mostrar un informe de todos los cadetes y sus pedidos
         // public void MostrarInforme()

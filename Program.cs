@@ -104,47 +104,67 @@ namespace CadeteriaApp
 
                     Console.WriteLine("Pedido dado de alta con éxito.");
                 }
+                
 
                 static void AsignarPedidoACadete(Cadeteria cadeteria)
                 {
                     Console.WriteLine("Ingrese el ID del cadete:");
-                    string? cadeteIdInput = Console.ReadLine(); // permite el ingreso nulo
-
-                    if (!int.TryParse(cadeteIdInput, out int cadeteId)) // verifica si el valor es un número válido
+                    if (!int.TryParse(Console.ReadLine(), out int cadeteId))
                     {
                         Console.WriteLine("ID de cadete inválido.");
                         return;
                     }
 
-                    Console.WriteLine("Ingrese el número del pedido:");
-                    string? pedidoIdInput = Console.ReadLine(); // permite el ingreso nulo
-
-                    if (!int.TryParse(pedidoIdInput, out int pedidoId)) // verifica si el valor es un n valido
+                    Console.WriteLine("Ingrese el ID del pedido:");
+                    if (!int.TryParse(Console.ReadLine(), out int pedidoId))
                     {
-                        Console.WriteLine("Número de pedido inválido.");
+                        Console.WriteLine("ID de pedido inválido.");
                         return;
                     }
 
-                    // para verificar si el pedido ya existe utilizando el metodo BuscarPedidoPorId
-                    Pedido? pedido = cadeteria.BuscarPedidoPorId(pedidoId); // metodo que busca el pedido en la lista de pedidos
-
-                    if (pedido == null)
-                    {
-                        Console.WriteLine("El pedido no existe. Debe dar de alta el pedido antes de asignarlo.");
-                        return; // salir si el pedido no existe
-                    }
-
-                    try
-                    {
-                        // Asignar el pedido al cadete
-                        cadeteria.AsignarPedidoACadete(cadeteId, pedido); // pasamos el objeto Pedido en lugar del Id
-                        Console.WriteLine("Pedido asignado al cadete con éxito.");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error al asignar el pedido: {ex.Message}");
-                    }
+                    cadeteria.AsignarPedidoACadete(cadeteId, pedidoId);
                 }
+                    
+                // static void AsignarPedidoACadete(Cadeteria cadeteria)
+                // {
+                //     Console.WriteLine("Ingrese el ID del cadete:");
+                //     string? cadeteIdInput = Console.ReadLine(); // permite el ingreso nulo
+
+                //     if (!int.TryParse(cadeteIdInput, out int cadeteId)) // verifica si el valor es un número válido
+                //     {
+                //         Console.WriteLine("ID de cadete inválido.");
+                //         return;
+                //     }
+
+                //     Console.WriteLine("Ingrese el número del pedido:");
+                //     string? pedidoIdInput = Console.ReadLine(); // permite el ingreso nulo
+
+                //     if (!int.TryParse(pedidoIdInput, out int pedidoId)) // verifica si el valor es un n valido
+                //     {
+                //         Console.WriteLine("Número de pedido inválido.");
+                //         return;
+                //     }
+
+                //     // para verificar si el pedido ya existe utilizando el metodo BuscarPedidoPorId
+                //     Pedido? pedido = cadeteria.BuscarPedidoPorId(pedidoId); // metodo que busca el pedido en la lista de pedidos
+
+                //     if (pedido == null)
+                //     {
+                //         Console.WriteLine("El pedido no existe. Debe dar de alta el pedido antes de asignarlo.");
+                //         return; // salir si el pedido no existe
+                //     }
+
+                //     try
+                //     {
+                //         // Asignar el pedido al cadete
+                //         cadeteria.AsignarPedidoACadete(cadeteId, pedido); // pasamos el objeto Pedido en lugar del Id
+                //         Console.WriteLine("Pedido asignado al cadete con éxito.");
+                //     }
+                //     catch (Exception ex)
+                //     {
+                //         Console.WriteLine($"Error al asignar el pedido: {ex.Message}");
+                //     }
+                // }
 
 
 
