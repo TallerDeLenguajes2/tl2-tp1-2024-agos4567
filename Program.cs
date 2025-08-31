@@ -1,4 +1,5 @@
-﻿using EspacioDatos;
+﻿
+using EspacioDatos;
 using System.Collections.Generic;
 using System;
 
@@ -38,16 +39,17 @@ namespace CadeteriaApp
 
 
 
-        static void MostrarMenu(Cadeteria cadeteria){
+                static void MostrarMenu(Cadeteria cadeteria){
 
                 int opcion = 0;
                 while (opcion != 5) // Cambia 4 a 5 para incluir la nueva opción
                 {
                     Console.WriteLine("\n--- MENÚ DE OPCIONES ---");
-                    Console.WriteLine("1. Asignar pedido a cadete");
-                    Console.WriteLine("2. Reasignar pedido");
-                    Console.WriteLine("3. Mostrar informe de cadetes");
-                    Console.WriteLine("4. Dar de alta pedido"); // Nueva opción
+                
+                     Console.WriteLine("1. Dar de alta un pedido");
+                    Console.WriteLine("2. Asignar pedido a cadete");
+                    Console.WriteLine("3. Reasignar pedido");
+                    Console.WriteLine("4. Mostrar informe de cadetes");
                     Console.WriteLine("5. Salir");
                     Console.Write("Elija una opción: ");
                     opcion = int.Parse(Console.ReadLine());
@@ -55,16 +57,19 @@ namespace CadeteriaApp
                     switch (opcion)
                     {
                         case 1:
-                            AsignarPedidoACadete(cadeteria);
+                             DarDeAltaPedido(cadeteria);
+                           
                             break;
                         case 2:
-                            ReasignarPedido(cadeteria);
+                             AsignarPedidoACadete(cadeteria);
+                            
                             break;
                         case 3:
-                            cadeteria.MostrarInforme();
+                            ReasignarPedido(cadeteria);
+                           
                             break;
                         case 4: // Nueva opción
-                            DarDeAltaPedido(cadeteria);
+                          cadeteria.MostrarInforme();
                             break;
                         case 5:
                             Console.WriteLine("Saliendo...");
@@ -75,98 +80,84 @@ namespace CadeteriaApp
                     }
                 }
             }
-                static void DarDeAltaPedido(Cadeteria cadeteria)
+
+                static  void DarDeAltaPedido(Cadeteria cadeteria){
+            
+                int nroPedido;
+                Console.Write("Ingrese el número de pedido: ");
+                while (!int.TryParse(Console.ReadLine(), out nroPedido))
                 {
-                    Console.WriteLine("Dar de alta pedido:");
-
-                    // Datos del cliente
-                    Console.Write("Nombre del cliente: ");
-                    string? nombreCliente = Console.ReadLine();
-                    Console.Write("Dirección del cliente: ");
-                    string? direccionCliente = Console.ReadLine();
-                    Console.Write("Teléfono del cliente: ");
-                    int telefonoCliente = int.Parse(Console.ReadLine());
-                    Console.Write("Referencia de dirección: ");
-                    string? referenciaDireccion = Console.ReadLine();
-
-                    Clientes cliente = new Clientes(nombreCliente, direccionCliente, telefonoCliente, referenciaDireccion);
-
-                    // Datos del pedido
-                    Console.Write("Número de pedido: ");
-                    int nroPedido = int.Parse(Console.ReadLine());
-                    Console.Write("Observación del pedido: ");
-                    string observacion = Console.ReadLine();
-
-                    Pedido nuevoPedido = new Pedido(nroPedido, observacion, cliente, EstadoPedido.Pendiente);
-
-                    // Agregar el pedido a la lista de pedidos disponibles en la cadetería
-                    cadeteria.PedidosDisponibles.Add(nuevoPedido);
-
-                    Console.WriteLine("Pedido dado de alta con éxito.");
+                    Console.WriteLine("No ingresó un número válido. Inténtelo de nuevo.");
                 }
-                
 
-                static void AsignarPedidoACadete(Cadeteria cadeteria)
+                // Información del cliente
+                Console.WriteLine("Ingrese una observación para el pedido:");
+                string? observacion = Console.ReadLine();
+                Console.WriteLine("Ingrese el nombre del cliente:");
+                string? nombreCliente = Console.ReadLine();
+                Console.WriteLine("Ingrese la dirección del cliente:");
+                string? direccionCliente = Console.ReadLine();
+                Console.WriteLine("Ingrese el teléfono del cliente:");
+                int telefonoCliente; // Cambiado a int, asumiendo que es un número
+                while (!int.TryParse(Console.ReadLine(), out telefonoCliente))
                 {
-                    Console.WriteLine("Ingrese el ID del cadete:");
-                    if (!int.TryParse(Console.ReadLine(), out int cadeteId))
-                    {
-                        Console.WriteLine("ID de cadete inválido.");
-                        return;
-                    }
+                    Console.WriteLine("No ingresó un número válido. Inténtelo de nuevo.");
+                }
+                Console.WriteLine("Ingrese datos de referencia del cliente:");
+                string? datosDeReferencia = Console.ReadLine(); // Agregar esta línea
 
-                    Console.WriteLine("Ingrese el ID del pedido:");
-                    if (!int.TryParse(Console.ReadLine(), out int pedidoId))
-                    {
-                        Console.WriteLine("ID de pedido inválido.");
-                        return;
-                    }
+                // Crear el objeto cliente con todos los parámetros
+                Clientes nuevoCliente = new Clientes(nombreCliente, direccionCliente, telefonoCliente, datosDeReferencia);
 
-                    cadeteria.AsignarPedidoACadete(cadeteId, pedidoId);
+                // Crear el nuevo pedido
+                Pedido nuevoPedido = new Pedido(nroPedido, observacion, nuevoCliente, EstadoPedido.Pendiente);
+                // 🔹 Agregar el pedido a la lista de pedidos de la cadetería
+                cadeteria.PedidosDisponibles.Add(nuevoPedido);
+              // Mensaje de confirmación
+                Console.WriteLine("Pedido dado de alta exitosamente.");
+  
+ 
+        }
+
+  
+
+                static void AsignarPedidoACadete(Cadeteria cadeteria){
+            
+                Console.WriteLine("Ingrese el ID del cadete:");
+                if (!int.TryParse(Console.ReadLine(), out int cadeteId))
+                {
+                    Console.WriteLine("ID de cadete inválido.");
+                    return;
+                }
+
+                Console.WriteLine("Ingrese el ID del pedido:");
+                if (!int.TryParse(Console.ReadLine(), out int pedidoId))
+                {
+                    Console.WriteLine("ID de pedido inválido.");
+                    return;
+                }
+
+                // Verifico si existen
+                var cadete = cadeteria.ListadoCadetes.FirstOrDefault(c => c.Id == cadeteId);
+                var pedido = cadeteria.PedidosDisponibles.FirstOrDefault(p => p.Nro == pedidoId);
+
+                if (cadete == null)
+                {
+                    Console.WriteLine("No se encontró un cadete con ese ID.");
+                    return;
+                }
+                if (pedido == null)
+                {
+                    Console.WriteLine("No se encontró un pedido con ese número. Primero debe darlo de alta.");
+                    return;
+                }
+
+                cadeteria.AsignarPedidoACadete(cadeteId, pedidoId);
+                Console.WriteLine("Pedido asignado al cadete exitosamente.");
+                      
                 }
                     
-                // static void AsignarPedidoACadete(Cadeteria cadeteria)
-                // {
-                //     Console.WriteLine("Ingrese el ID del cadete:");
-                //     string? cadeteIdInput = Console.ReadLine(); // permite el ingreso nulo
-
-                //     if (!int.TryParse(cadeteIdInput, out int cadeteId)) // verifica si el valor es un número válido
-                //     {
-                //         Console.WriteLine("ID de cadete inválido.");
-                //         return;
-                //     }
-
-                //     Console.WriteLine("Ingrese el número del pedido:");
-                //     string? pedidoIdInput = Console.ReadLine(); // permite el ingreso nulo
-
-                //     if (!int.TryParse(pedidoIdInput, out int pedidoId)) // verifica si el valor es un n valido
-                //     {
-                //         Console.WriteLine("Número de pedido inválido.");
-                //         return;
-                //     }
-
-                //     // para verificar si el pedido ya existe utilizando el metodo BuscarPedidoPorId
-                //     Pedido? pedido = cadeteria.BuscarPedidoPorId(pedidoId); // metodo que busca el pedido en la lista de pedidos
-
-                //     if (pedido == null)
-                //     {
-                //         Console.WriteLine("El pedido no existe. Debe dar de alta el pedido antes de asignarlo.");
-                //         return; // salir si el pedido no existe
-                //     }
-
-                //     try
-                //     {
-                //         // Asignar el pedido al cadete
-                //         cadeteria.AsignarPedidoACadete(cadeteId, pedido); // pasamos el objeto Pedido en lugar del Id
-                //         Console.WriteLine("Pedido asignado al cadete con éxito.");
-                //     }
-                //     catch (Exception ex)
-                //     {
-                //         Console.WriteLine($"Error al asignar el pedido: {ex.Message}");
-                //     }
-                // }
-
-
+        
 
             static void ReasignarPedido(Cadeteria cadeteria)
             {
@@ -177,6 +168,8 @@ namespace CadeteriaApp
                 int nuevoCadeteId = int.Parse(Console.ReadLine());
 
                 cadeteria.ReasignarPedido(pedidoId, nuevoCadeteId);
+                Console.WriteLine("Pedido reasignado al cadete exitosamente.");
+
             }
 
 

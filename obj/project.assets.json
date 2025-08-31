@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Taller2\\tp1\\tp1.csproj",
+      "projectUniqueName": "C:\\Taller2-2025\\tp1\\tl2-tp1-2025-agos4567\\tp1.csproj",
       "projectName": "tp1",
-      "projectPath": "C:\\Taller2\\tp1\\tp1.csproj",
+      "projectPath": "C:\\Taller2-2025\\tp1\\tl2-tp1-2025-agos4567\\tp1.csproj",
       "packagesPath": "C:\\Users\\ROG BY NG\\.nuget\\packages\\",
-      "outputPath": "C:\\Taller2\\tp1\\obj\\",
+      "outputPath": "C:\\Taller2-2025\\tp1\\tl2-tp1-2025-agos4567\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ROG BY NG\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -64,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.316/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
